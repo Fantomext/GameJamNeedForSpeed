@@ -30,7 +30,7 @@ public class PlayerMoveSimple : MonoBehaviour
 
     public void Move()
     {
-        transform.Translate(_targetDirection * _speed * Time.deltaTime, Space.Self);
+        transform.Translate(-transform.forward * _speed * Time.deltaTime, Space.World);
         horizontal = Input.GetAxisRaw("Horizontal");
         if (_cantMoveRight)
         {
@@ -102,7 +102,7 @@ public class PlayerMoveSimple : MonoBehaviour
                 Vector3 surface = hitStart.point + transform.up * 1f;
 
                 transform.position = new Vector3(transform.position.x, surface.y, transform.position.z);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hitStart.normal), Time.deltaTime);
+               // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hitStart.normal), Time.deltaTime);
 
                 _grounded = true;
             }
@@ -123,9 +123,12 @@ public class PlayerMoveSimple : MonoBehaviour
         {
             _grounded = false;
         }
+    }
 
-
-
+    public void Die()
+    {
+        Debug.Log("Die");
+        _speed = 0;
 
     }
     IEnumerator ChangeRange()

@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class RayChecker : MonoBehaviour
 {
-    [SerializeField] private PlayerMoveSimple _player;
     [SerializeField] private Vector3 direction;
     [SerializeField] private UnityEvent _eventClose;
     [SerializeField] private UnityEvent _eventExit;
