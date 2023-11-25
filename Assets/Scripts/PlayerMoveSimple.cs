@@ -15,6 +15,10 @@ public class PlayerMoveSimple : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _gravityScale;
     [SerializeField] private float _checkDistanceRange;
+    [SerializeField] private bool _cantMoveRight = false;
+    [SerializeField] private bool _cantMoveLeft = false;
+    [SerializeField] private List<Transform> _rayCastPositions = new List<Transform>();
+    float horizontal = 0;
 
     private void Update()
     {
@@ -27,9 +31,38 @@ public class PlayerMoveSimple : MonoBehaviour
     public void Move()
     {
         transform.Translate(_targetDirection * _speed * Time.deltaTime, Space.Self);
-        float horizontal = Input.GetAxisRaw("Horizontal");
+        horizontal = Input.GetAxisRaw("Horizontal");
+        if (_cantMoveRight)
+        {
+            horizontal = Mathf.Clamp(horizontal, -1, 0);
+        }
+        else if (_cantMoveLeft)
+        {
+            horizontal = Mathf.Clamp(horizontal, 0, 1);
+        }
         transform.Translate(transform.right * horizontal * _speed * Time.deltaTime, Space.Self);
+
     }
+
+    public void CantMoveLeft()
+    {
+        _cantMoveLeft = true;
+    }
+    public void CanMoveLeft()
+    {
+        _cantMoveLeft = false;
+    }
+
+    public void CantMoveRight()
+    {
+        _cantMoveRight = true;
+    }
+    public void CanMoveRight()
+    {
+        _cantMoveRight = false;
+    }
+
+
 
     public void Jump()
     {
@@ -54,36 +87,52 @@ public class PlayerMoveSimple : MonoBehaviour
         _checkDistanceRange = value;
     }
 
+    public void CheckGround()
+    {
+        Ray rayStart = new Ray(_rayCastPositions[0].position, -transform.up);
+        Ray rayEnd = new Ray(_rayCastPositions[1].position, -transform.up);
+
+        RaycastHit hitStart;
+        RaycastHit hitEnd;
+
+        if (Physics.Raycast(rayStart, out hitStart, _checkDistanceRange))
+        {
+            if (hitStart.collider != null)
+            {
+                Vector3 surface = hitStart.point + transform.up * 1f;
+
+                transform.position = new Vector3(transform.position.x, surface.y, transform.position.z);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hitStart.normal), Time.deltaTime);
+
+                _grounded = true;
+            }
+        }
+        else if (Physics.Raycast(rayEnd, out hitEnd, _checkDistanceRange))
+        {
+            if (hitEnd.collider != null)
+            {
+                Vector3 surface = hitEnd.point + transform.up * 1f;
+
+                transform.position = new Vector3(transform.position.x, surface.y, transform.position.z);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hitEnd.normal), Time.deltaTime);
+
+                _grounded = true;
+            }
+        }
+        else
+        {
+            _grounded = false;
+        }
+
+
+
+
+    }
     IEnumerator ChangeRange()
     {
         _checkDistanceRange = 0;
         yield return new WaitForSeconds(0.5f);
         _checkDistanceRange = 1;
-    }
-
-    public void CheckGround()
-    {
-            Ray raycast = new Ray(transform.position, -transform.up);
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(raycast, out hit, _checkDistanceRange))
-            {
-                if (hit.collider != null)
-                {
-                    Vector3 surface = hit.point + transform.up * 1f;
-
-                    transform.position = new Vector3(transform.position.x, surface.y, transform.position.z);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hit.normal), Time.deltaTime);
-                    
-                    _grounded = true;
-                }
-            }
-            else
-            {
-                _grounded = false;
-            }
-       
     }
 
 }
