@@ -1,6 +1,8 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -14,15 +16,18 @@ public class CarController : MonoBehaviour
     [SerializeField] private float _gravityForce = 10f;
     [SerializeField] private float _dragOnGround = 3f;
     [SerializeField] private float _jumpForce = 15f;
+    [SerializeField] private float _accelerationSpeed = 10f;
+    [SerializeField] CinemachineVirtualCamera _cineMachine;
 
     private float _horizontal;
     private float _vertical;
 
     [SerializeField] private bool _grounded;
 
-    [SerializeField]private LayerMask whatIsGround;
     [SerializeField] private float groundRayLength = 0.5f;
     [SerializeField] private Transform _groundRayPoint;
+    [SerializeField] private float _velocityValueChange;
+    [SerializeField] private ParticleSystem[] _particles;
     private void Start()
     {
         _rigibody.transform.parent = null;
@@ -53,6 +58,23 @@ public class CarController : MonoBehaviour
             _rigibody.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _forwardAccel += _accelerationSpeed;
+            SmoothChangeValue(0.3f);
+            _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+            _particles[0].Play();
+            _particles[1].Play();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _forwardAccel -= _accelerationSpeed;
+            SmoothChangeValue(0f);
+            _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+            _particles[0].Stop();
+            _particles[1].Stop();
+        }
+
     }
     private void FixedUpdate()
     {
@@ -67,5 +89,19 @@ public class CarController : MonoBehaviour
             _rigibody.drag = 0.1f;
             _rigibody.AddForce(Vector3.up * -_gravityForce * 100f);
         }
+    }
+
+    public void SmoothChangeValue(float target)
+    {
+        StartCoroutine(ChangeValue(target));
+    }
+
+    IEnumerator ChangeValue(float targetValue)
+    {
+        for (float t = 0; t < 1; t+= Time.deltaTime)
+        {
+            _velocityValueChange = Mathf.Lerp(_velocityValueChange, targetValue, t / 2);
+        }
+        yield return null;
     }
 }
