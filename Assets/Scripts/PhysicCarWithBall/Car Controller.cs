@@ -91,7 +91,17 @@ public class CarController : MonoBehaviour
         }
     }
 
-    public void SmoothChangeValue(float target)
+    public float ReturnSpeed()
+    {
+        return _accelerationSpeed;
+    }
+
+    public void DieFromSpeed()
+    {
+        Debug.Log("Die");
+    }
+
+    private void SmoothChangeValue(float target)
     {
         StartCoroutine(ChangeValue(target));
     }
