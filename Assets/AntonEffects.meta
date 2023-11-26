@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/AntonEffects.meta
 guid: b427bd33b05e2094489d8cdc396314cc
 folderAsset: yes
+========
+guid: a1cba81934974034da8f3385d0ef7c23
+>>>>>>>> 000e09be67f5c9f50a822aeea09c4cf45ff6cc5c:Assets/Level Design/PolygonPi/FenceLayout/Example/ExampleScene2018AndUnder.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

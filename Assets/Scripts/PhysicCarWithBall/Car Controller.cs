@@ -75,6 +75,7 @@ public class CarController : MonoBehaviour
             _particles[0].Stop();
             _particles[1].Stop();
         }
+        Debug.Log(_rigibody.velocity.magnitude);
 
     }
     private void FixedUpdate()
@@ -90,6 +91,11 @@ public class CarController : MonoBehaviour
             _rigibody.drag = 0.1f;
             _rigibody.AddForce(Vector3.up * -_gravityForce * 100f);
         }
+    }
+
+    public void Booster(int target)
+    {
+        _forwardAccel += target;
     }
 
     public float ReturnSpeed()
