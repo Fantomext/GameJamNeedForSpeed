@@ -33,6 +33,6 @@ public class OnEnterHit : MonoBehaviour
 
     public void ChangeSpeed(int value)
     {
-        _carController.Booster(value);
+        _carController.BoosterStart(value);
     }
 }

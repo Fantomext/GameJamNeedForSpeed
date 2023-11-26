@@ -27,9 +27,10 @@ public class CarController : MonoBehaviour
 
     [SerializeField] private float groundRayLength = 0.5f;
     [SerializeField] private Transform _groundRayPoint;
-    [SerializeField] private float _velocityValueChange;
+    private float _velocityValueChange;
     [SerializeField] private ParticleSystem[] _particles;
     [SerializeField] private Transform _spawnPosition;
+    [SerializeField] private AudioSource[] _audios;
     private void Start()
     {
         _rigibody.transform.parent = null;
@@ -94,9 +95,16 @@ public class CarController : MonoBehaviour
         }
     }
 
-    public void Booster(int target)
+    public void BoosterStart(int target)
+    {
+        StartCoroutine(Booster(target));
+    }
+
+    IEnumerator Booster(int target)
     {
         _forwardAccel += target;
+        yield return new WaitForSeconds(3f);
+        _forwardAccel -= target;
     }
 
     public float ReturnSpeed()
@@ -118,6 +126,7 @@ public class CarController : MonoBehaviour
         _particles[1].Stop();
         this.enabled = false;
         _visual.SetActive(false);
+        _audios[Random.Range(0,2)].Play();
     }
     [ContextMenu("Res")]
     public void Respawn()

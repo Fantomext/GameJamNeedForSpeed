@@ -22,18 +22,6 @@ public class OnEnterBoost : MonoBehaviour
         }
     }
 
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.attachedRigidbody)
-        {
-            if (other.attachedRigidbody.TryGetComponent<OnEnterHit>(out var hit))
-            {
-                hit.ChangeSpeed(-value);
-            }
-        }
-    }
-
     public void Blink()
     {
         StartCoroutine(BlinkMode());
