@@ -8,6 +8,7 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigibody;
+    [SerializeField] private GameObject _visual;
 
     [SerializeField] private float _maxSpeed  = 50f;
     [SerializeField] private float _forwardAccel = 8f;
@@ -99,6 +100,14 @@ public class CarController : MonoBehaviour
     public void DieFromSpeed()
     {
         Debug.Log("Die");
+        _particles[2].Play();
+        Die();
+    }
+
+    public void Die()
+    {
+        this.enabled = false;
+        _visual.SetActive(false);
     }
 
     private void SmoothChangeValue(float target)
