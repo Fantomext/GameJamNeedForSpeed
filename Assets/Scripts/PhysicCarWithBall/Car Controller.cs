@@ -29,6 +29,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private float _velocityValueChange;
     [SerializeField] private ParticleSystem[] _particles;
+    [SerializeField] private Transform _spawnPosition;
     private void Start()
     {
         _rigibody.transform.parent = null;
@@ -112,8 +113,27 @@ public class CarController : MonoBehaviour
 
     public void Die()
     {
+        _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+        _particles[0].Stop();
+        _particles[1].Stop();
         this.enabled = false;
         _visual.SetActive(false);
+    }
+    [ContextMenu("Res")]
+    public void Respawn()
+    {
+        this.enabled = true;
+        _visual.SetActive(true);
+        _rigibody.position = _spawnPosition.position;
+        transform.rotation = _spawnPosition.rotation;
+        Invoke(nameof(ResetVelocity), 0.5f);
+        
+    }
+
+    public void ResetVelocity()
+    {
+        _rigibody.constraints = RigidbodyConstraints.FreezeAll;
+        _rigibody.constraints = RigidbodyConstraints.None;
     }
 
     private void SmoothChangeValue(float target)
