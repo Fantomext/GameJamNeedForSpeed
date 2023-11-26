@@ -10,7 +10,7 @@ public class OnEnterHit : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.contacts[0].normal.ToString());
-        if (collision.contacts[0].normal != Vector3.up)
+        if (collision.contacts[0].normal.x >= 0.4f || collision.contacts[0].normal.x <= -0.4f)
         {
             _particleSystem.Play();
             _particleSystem.transform.position = collision.contacts[0].point;
@@ -29,5 +29,10 @@ public class OnEnterHit : MonoBehaviour
         {
             _carController.DieFromSpeed();
         }
+    }
+
+    public void ChangeSpeed(int value)
+    {
+        _carController.Booster(value);
     }
 }
