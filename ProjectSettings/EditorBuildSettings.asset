@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Level Design.unity
+    guid: ee50f09adb1e6184aaf0f4b52c2435b1
+  - enabled: 1
     path: Assets/Scenes/Car.unity
     guid: b5a05be3f5a72b74eb724ebfa9756dbf
   m_configObjects: {}

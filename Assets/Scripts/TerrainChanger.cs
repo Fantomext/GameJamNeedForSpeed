@@ -6,34 +6,32 @@ using UnityEngine;
 
 public class TerrainChanger : MonoBehaviour
 {
-    [SerializeField] private Terrain terrain;
-    [SerializeField] TerrainData _terrainData;
-    float[,,] alphamaps;
-    public int value = 0;
-    public int valuetwo = 0;
-    private void Start()
+
+    [SerializeField] TerrainPainter painter;
+
+    private void Update()
     {
-        //рср реппщим оеимреп
-        TerrainPainter painter = new TerrainPainter();
-        _terrainData = terrain.terrainData;
-        float[,,] alphamaps = _terrainData.GetAlphamaps(0, 0, _terrainData.alphamapWidth, _terrainData.alphamapHeight);
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            SetTerrainSand();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SetTerrainGrass();
+        }
     }
 
+    public void SetTerrainGrass()
+    {
+        painter.layerSettings[4].layer = painter.layerSettings[2].layer;
+        painter.RepaintAll();
+    }
 
     [ContextMenu("Change")]
-    public void SetTerrain()
+    public void SetTerrainSand()
     {
-        for (int i = 0; i < _terrainData.alphamapHeight; i++)
-        {
-            for (int y = 0; y < _terrainData.alphamapWidth; y++)
-            {
-                alphamaps[i, y, 0] = 0;
-                alphamaps[i, y, 1] = 0;
-                alphamaps[i, y, 2] = 0;
-            }
-        }
-
-        _terrainData.SetAlphamaps(0, 0, alphamaps);
+        painter.layerSettings[4].layer = painter.layerSettings[3].layer;
+        painter.RepaintAll();
     }
 
 
