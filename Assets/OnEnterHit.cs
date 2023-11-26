@@ -9,8 +9,13 @@ public class OnEnterHit : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        _particleSystem.transform.position = collision.contacts[0].point;
-        _particleSystem.Play();
+        Debug.Log(collision.contacts[0].normal.ToString());
+        if (collision.contacts[0].normal != Vector3.up)
+        {
+            _particleSystem.Play();
+            _particleSystem.transform.position = collision.contacts[0].point;
+        }
+        
     }
 
     private void OnCollisionExit(Collision collision)
