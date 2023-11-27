@@ -85,7 +85,6 @@ public class UIManager : MonoBehaviour
 
     public void ChangeColorSpeedometr()
     {
-        Debug.Log(_mainImage.fillAmount);
         for (int i = 0; i < _images.Count; i++)
         {
             if (_mainImage.fillAmount < 0.60)
@@ -111,17 +110,14 @@ public class UIManager : MonoBehaviour
             if (_slider.value < 0.60)
             {
                 _sliderImage.color = _colors[0];
-                Debug.Log("first");
             }
             else if (_slider.value > 0.61 && _slider.value < 0.94)
             {
                 _sliderImage.color = _colors[1];
-                Debug.Log("second");
             }
             else if (_slider.value >= 0.95)
             {
                 _sliderImage.color = _colors[2];
-                Debug.Log("third");
             }
         }
     }

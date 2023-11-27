@@ -9,19 +9,28 @@ public class SceneChanger : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SceneManager.LoadScene(1);
+        }
         if (Input.GetKeyDown(KeyCode.F2))
         {
             SceneManager.LoadScene(2);
         }
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(3);
         }
     }
 
     public void ChangeScene(int value)
     {
-            SceneManager.LoadScene(value);
+        SceneManager.LoadScene(value);
+    }
+
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void Exit()

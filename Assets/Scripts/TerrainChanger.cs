@@ -69,7 +69,7 @@ public class TerrainChanger : MonoBehaviour
         {
             GameObject newTree = Instantiate(OldPrefab);
             newTree.transform.position = terrain.transform.position + Vector3.Scale(terrain.terrainData.size, trees[i].position);
-            
+
             terrain.AddTreeInstance(new TreeInstance()
             {
                 position = newTree.transform.position,
