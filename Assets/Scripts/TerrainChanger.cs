@@ -43,7 +43,6 @@ public class TerrainChanger : MonoBehaviour
         {
             GameObject newTree = Instantiate(ModernPrefab);
             newTree.transform.position = terrain.transform.position + Vector3.Scale(terrain.terrainData.size, trees[i].position);
-            
             terrain.AddTreeInstance(new TreeInstance()
             {
                 position = newTree.transform.position,
@@ -53,6 +52,7 @@ public class TerrainChanger : MonoBehaviour
                 color = trees[i].color,
                 lightmapColor = trees[i].lightmapColor
             });
+            trees[i].position += Vector3.down * 100;
         }
     }
 
@@ -79,6 +79,7 @@ public class TerrainChanger : MonoBehaviour
                 color = trees[i].color,
                 lightmapColor = trees[i].lightmapColor
             });
+            trees[i].position += Vector3.down * 100;
         }
     }
 
