@@ -55,7 +55,10 @@ public class TimeManager : MonoBehaviour
         if (_timeState == TimeState.past)
         {
             _changeTimeEffect.SetActive(true);
-            _terrainChanger.MakeOld();
+            if (_terrainChanger != null)
+            {
+                _terrainChanger.MakeOld();
+            }
             foreach (var item in timeItems)
             {
                 item.ChangeTimePast();
@@ -64,7 +67,11 @@ public class TimeManager : MonoBehaviour
         else if (_timeState == TimeState.future)
         {
             _changeTimeEffect.SetActive(true);
+            if (_terrainChanger != null)
+            {
             _terrainChanger.MakeModern();
+
+            }
             foreach (var item in timeItems)
             {
                 item.ChangeTimeFuture();

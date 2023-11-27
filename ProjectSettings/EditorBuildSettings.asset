@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level Design.unity
     guid: ee50f09adb1e6184aaf0f4b52c2435b1
+  - enabled: 1
+    path: Assets/Scenes/Sci-FI.unity
+    guid: 5d251d33db20ca2458476f2476316505
   m_configObjects: {}
