@@ -187,7 +187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449037771020587023}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21351577, y: -0.01723791, z: 0.003768058, w: 0.9767803}
+  m_LocalRotation: {x: 0.21353339, y: -0.011813282, z: 0.002582282, w: 0.97686094}
   m_LocalPosition: {x: 4.015936, y: -2.5701747, z: -3.1954117}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -498,7 +498,6 @@ GameObject:
   - component: {fileID: 1054570132081901789}
   - component: {fileID: 7553277097971099117}
   - component: {fileID: 8087937506713479933}
-  - component: {fileID: 7876053387795040786}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -514,7 +513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2424944348441073159}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21351577, y: -0.01723791, z: 0.003768058, w: 0.9767803}
+  m_LocalRotation: {x: 0.21353339, y: -0.011813282, z: 0.002582282, w: 0.97686094}
   m_LocalPosition: {x: 4.015936, y: -2.5701747, z: -3.1954117}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -658,23 +657,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7876053387795040786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2424944348441073159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 0}
-  isGlobal: 0
-  blendDistance: 0
-  weight: 1
-  priority: 0
 --- !u!1 &2948232423932936622
 GameObject:
   m_ObjectHideFlags: 0
