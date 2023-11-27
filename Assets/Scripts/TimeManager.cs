@@ -15,11 +15,21 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private GameObject _changeTimeEffect;
     [SerializeField] private AudioSource _timeTravelerSound;
     [SerializeField] private CarController _car;
+    [SerializeField] private GameObject _Image;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && _car.ReturnSpeed() > 61)
+        if (_car.ReturnSpeed() > 61)
+        {
+            _Image.SetActive(true);
+        }
+        else
+        {
+            _Image.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && _car.ReturnSpeed() > 61)
         {
             if (_timeState == TimeState.past)
             {
