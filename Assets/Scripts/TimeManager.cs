@@ -44,23 +44,24 @@ public class TimeManager : MonoBehaviour
         _timeTravelerSound.Play();
         if (_timeState == TimeState.past)
         {
+            _changeTimeEffect.SetActive(true);
+
             foreach (var item in timeItems)
             {
-                _changeTimeEffect.SetActive(true);
                 item.ChangeTimePast();
-                yield return new WaitForSeconds(0.1f);
-                _changeTimeEffect.SetActive(false);
             }
         }
         else if (_timeState == TimeState.future)
         {
+            _changeTimeEffect.SetActive(true);
+
             foreach (var item in timeItems)
             {
-                _changeTimeEffect.SetActive(true);
                 item.ChangeTimeFuture();
-                yield return new WaitForSeconds(0.1f);
-                _changeTimeEffect.SetActive(false);
             }
         }
+        yield return new WaitForSeconds(0.5f);
+        _changeTimeEffect.SetActive(false);
+
     }
 }
