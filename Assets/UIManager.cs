@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private CarController _car;
@@ -12,6 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _nitroBar;
     [SerializeField] List<Color> _colors = new List<Color>();
     [SerializeField] private TMP_Text _text;
+    [SerializeField] private Slider _slider;
+    [SerializeField] private Image _sliderImage;
     bool _nitroStart = true;
 
     private void Start()
@@ -24,6 +27,7 @@ public class UIManager : MonoBehaviour
     {
         FillBar();
         ChangeColorSpeedometr();
+        ChangeColorMusic();
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             FillNitroBar();
@@ -87,19 +91,38 @@ public class UIManager : MonoBehaviour
             if (_mainImage.fillAmount < 0.60)
             {
                 _images[i].color = _colors[0];
-                Debug.Log("first");
             }
             else if (_mainImage.fillAmount > 0.61 && _mainImage.fillAmount < 0.98)
             {
                 _images[i].color = _colors[1];
-                Debug.Log("second");
             }
-            else if (_mainImage.fillAmount >= 0.99)
+            else if (_mainImage.fillAmount >= 0.99f)
             {
                 _images[i].color = _colors[2];
-                Debug.Log("third");
             }
         }
         
+    }
+
+    public void ChangeColorMusic()
+    {
+        for (int i = 0; i < _images.Count; i++)
+        {
+            if (_slider.value < 0.60)
+            {
+                _sliderImage.color = _colors[0];
+                Debug.Log("first");
+            }
+            else if (_slider.value > 0.61 && _slider.value < 0.94)
+            {
+                _sliderImage.color = _colors[1];
+                Debug.Log("second");
+            }
+            else if (_slider.value >= 0.95)
+            {
+                _sliderImage.color = _colors[2];
+                Debug.Log("third");
+            }
+        }
     }
 }

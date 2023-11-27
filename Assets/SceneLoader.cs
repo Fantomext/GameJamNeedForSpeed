@@ -5,18 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private AudioSource[] _audio;
+  
+
+    public void Restart()
     {
-        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Restart();
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene(1);
+            _audio[0].Stop();
+            _audio[1].Play();
+            Invoke(nameof(LoadFirstScene), 3f);
         }
+    }
+
+    public void LoadFirstScene()
+    {
+        SceneManager.LoadScene(1);
     }
 }
