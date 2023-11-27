@@ -170,6 +170,14 @@ public class CarController : MonoBehaviour
         Die();
     }
 
+    public void DieFull()
+    {
+        _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+        _particles[0].Stop();
+        _particles[1].Stop();
+        this.enabled = false;
+        _visual.SetActive(false);
+    }
     public void Die()
     {
         _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;

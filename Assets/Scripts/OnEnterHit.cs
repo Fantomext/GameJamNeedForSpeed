@@ -31,6 +31,11 @@ public class OnEnterHit : MonoBehaviour
         }
     }
 
+    public void DiecheckFull()
+    {
+        _carController.DieFull();
+    }
+
     public void ChangeSpeed(int value)
     {
         _carController.BoosterStart(value);
