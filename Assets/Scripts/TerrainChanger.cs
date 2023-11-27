@@ -17,20 +17,22 @@ public class TerrainChanger : MonoBehaviour
     {
         TreeInstance[] trees = terrain.terrainData.treeInstances;
 
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            SetTerrainSand();
-            SetOldTrees(trees);
-            terrain.Flush();
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            SetTerrainGrass();
-            SetModernTrees(trees);
-            terrain.Flush();
-        }
+        
     }
 
+    public void MakeModern()
+    {
+        SetTerrainSand();
+        
+        terrain.Flush();
+    }
+
+    public void MakeOld()
+    {
+        SetTerrainGrass();
+        
+        terrain.Flush();
+    }
     public void SetTerrainGrass()
     {
         painter.layerSettings[4].layer = painter.layerSettings[2].layer;
@@ -41,6 +43,7 @@ public class TerrainChanger : MonoBehaviour
     {
         for (int i = 0; i < trees.Length; i++)
         {
+            trees[i].prototypeIndex = -1;
             GameObject newTree = Instantiate(ModernPrefab);
             newTree.transform.position = terrain.transform.position + Vector3.Scale(terrain.terrainData.size, trees[i].position);
             terrain.AddTreeInstance(new TreeInstance()
@@ -52,7 +55,7 @@ public class TerrainChanger : MonoBehaviour
                 color = trees[i].color,
                 lightmapColor = trees[i].lightmapColor
             });
-            trees[i].position += Vector3.down * 100;
+            
         }
     }
 
@@ -67,9 +70,9 @@ public class TerrainChanger : MonoBehaviour
     {
         for (int i = 0; i < trees.Length; i++)
         {
+            trees[i].prototypeIndex = -1;
             GameObject newTree = Instantiate(OldPrefab);
             newTree.transform.position = terrain.transform.position + Vector3.Scale(terrain.terrainData.size, trees[i].position);
-
             terrain.AddTreeInstance(new TreeInstance()
             {
                 position = newTree.transform.position,
@@ -79,7 +82,8 @@ public class TerrainChanger : MonoBehaviour
                 color = trees[i].color,
                 lightmapColor = trees[i].lightmapColor
             });
-            trees[i].position += Vector3.down * 100;
+            
+            
         }
     }
 

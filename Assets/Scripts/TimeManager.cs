@@ -16,7 +16,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private AudioSource _timeTravelerSound;
     [SerializeField] private CarController _car;
     [SerializeField] private GameObject _Image;
-
+    [SerializeField] private TerrainChanger _terrainChanger;
 
     private void Update()
     {
@@ -55,7 +55,7 @@ public class TimeManager : MonoBehaviour
         if (_timeState == TimeState.past)
         {
             _changeTimeEffect.SetActive(true);
-
+            _terrainChanger.MakeOld();
             foreach (var item in timeItems)
             {
                 item.ChangeTimePast();
@@ -64,7 +64,7 @@ public class TimeManager : MonoBehaviour
         else if (_timeState == TimeState.future)
         {
             _changeTimeEffect.SetActive(true);
-
+            _terrainChanger.MakeModern();
             foreach (var item in timeItems)
             {
                 item.ChangeTimeFuture();
