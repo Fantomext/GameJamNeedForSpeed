@@ -6,6 +6,8 @@ public class OnEnterSlow : MonoBehaviour
 {
     [SerializeField] private int value;
     [SerializeField] private Material _material;
+    [SerializeField] private AudioSource[] _audioSource;
+    [SerializeField] private float _timePlayBoost;
 
     private void Start()
     {
@@ -18,8 +20,17 @@ public class OnEnterSlow : MonoBehaviour
             if (other.attachedRigidbody.TryGetComponent<OnEnterHit>(out var hit))
             {
                 hit.ChangeSpeed(-value);
+                StartCoroutine(PlaySlow());
             }
         }
+    }
+
+    IEnumerator PlaySlow()
+    {
+        _audioSource[0].Play();
+        yield return new WaitForSeconds(_timePlayBoost);
+        _audioSource[0].Stop();
+        _audioSource[1].Play();
     }
 
     public void Blink()

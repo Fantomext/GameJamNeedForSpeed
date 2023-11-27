@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class OnEnterBoost : MonoBehaviour
 {
-    [SerializeField] private int value;
+    [SerializeField] private int _value;
+    [SerializeField] private float _timePlayBoost;
     [SerializeField] private Material _material;
+    [SerializeField] private AudioSource[] _audios;
 
     private void Start()
     {
@@ -17,9 +19,18 @@ public class OnEnterBoost : MonoBehaviour
         {
             if (other.attachedRigidbody.TryGetComponent<OnEnterHit>(out var hit))
             {
-                hit.ChangeSpeed(value);
+                hit.ChangeSpeed(_value);
+                StartCoroutine(PlayBoost());
             }
         }
+    }
+
+    IEnumerator PlayBoost()
+    {
+        _audios[0].Play();
+        yield return new WaitForSeconds(_timePlayBoost);
+        _audios[0].Stop();
+        _audios[1].Play();
     }
 
     public void Blink()

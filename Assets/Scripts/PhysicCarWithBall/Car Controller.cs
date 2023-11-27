@@ -10,7 +10,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Rigidbody _rigibody;
     [SerializeField] private GameObject _visual;
 
-    [SerializeField] private float _maxSpeed  = 50f;
+    [SerializeField] private float _defaultSpeed  = 50f;
     [SerializeField] private float _forwardAccel = 8f;
     [SerializeField] private float _reverseAccel = 4f;
     [SerializeField] private float _turnStrength = 180f;
@@ -18,6 +18,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float _dragOnGround = 3f;
     [SerializeField] private float _jumpForce = 15f;
     [SerializeField] private float _accelerationSpeed = 10f;
+    [SerializeField] private float _nitroBar = 10f;
     [SerializeField] CinemachineVirtualCamera _cineMachine;
 
     private float _horizontal;
@@ -31,6 +32,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private ParticleSystem[] _particles;
     [SerializeField] private Transform _spawnPosition;
     [SerializeField] private AudioSource[] _audios;
+    private bool _nitroIsActive = true;
+    [SerializeField] private float _timer = 0;
     private void Start()
     {
         _rigibody.transform.parent = null;
@@ -63,21 +66,30 @@ public class CarController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _forwardAccel += _accelerationSpeed;
-            SmoothChangeValue(0.3f);
-            _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
-            _particles[0].Play();
-            _particles[1].Play();
+            StartCoroutine(Nitro());
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            _forwardAccel -= _accelerationSpeed;
-            SmoothChangeValue(0f);
-            _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
-            _particles[0].Stop();
-            _particles[1].Stop();
-        }
-        Debug.Log(_rigibody.velocity.magnitude);
+
+        //if (Input.GetKeyDown(KeyCode.LeftShift) && _nitroBar > 3)
+        //{
+
+        //    _forwardAccel += _accelerationSpeed;
+        //    SmoothChangeValue(0.3f);
+        //    _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+        //    _particles[0].Play();
+        //    _particles[1].Play();
+
+
+        //}
+        //if (Input.GetKeyUp(KeyCode.LeftShift))
+        //{
+        //    _nitroIsActive = false;
+        //    _forwardAccel -= _accelerationSpeed;
+        //    SmoothChangeValue(0f);
+        //    _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+        //    _particles[0].Stop();
+        //    _particles[1].Stop();
+        //}
+        
 
     }
     private void FixedUpdate()
@@ -95,6 +107,40 @@ public class CarController : MonoBehaviour
         }
     }
 
+    IEnumerator Nitro()
+    {
+        if (_nitroIsActive)
+        {
+            _timer += Time.deltaTime;
+            _nitroIsActive = false;
+            _forwardAccel += _accelerationSpeed;
+            SmoothChangeValue(0.3f);
+            _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+            _particles[0].Play();
+            _particles[1].Play();
+            yield return new WaitForSeconds(3f);
+            _nitroIsActive = false;
+            _forwardAccel -= _accelerationSpeed;
+            SmoothChangeValue(0f);
+            _cineMachine.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = _velocityValueChange;
+            _particles[0].Stop();
+            _particles[1].Stop();
+            yield return new WaitForSeconds(3f);
+            _nitroIsActive = true;
+        }
+    }
+        
+
+    public void SetMaxSpeed()
+    {
+        _forwardAccel = _accelerationSpeed;
+    }
+
+    public void DefaultSpeed()
+    {
+        _forwardAccel = _defaultSpeed;
+    }
+
     public void BoosterStart(int target)
     {
         StartCoroutine(Booster(target));
@@ -109,7 +155,12 @@ public class CarController : MonoBehaviour
 
     public float ReturnSpeed()
     {
-        return _accelerationSpeed;
+        return _forwardAccel;
+    }
+
+    public float ReturnMagnitude()
+    {
+        return _rigibody.velocity.magnitude;
     }
 
     public void DieFromSpeed()
@@ -127,6 +178,7 @@ public class CarController : MonoBehaviour
         this.enabled = false;
         _visual.SetActive(false);
         _audios[Random.Range(0,2)].Play();
+        Invoke(nameof(Respawn), 1f);
     }
     [ContextMenu("Res")]
     public void Respawn()
