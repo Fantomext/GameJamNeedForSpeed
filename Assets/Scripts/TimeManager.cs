@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 enum TimeState
 {
@@ -17,6 +18,8 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private CarController _car;
     [SerializeField] private GameObject _Image;
     [SerializeField] private TerrainChanger _terrainChanger;
+    [SerializeField] private UnityEvent _eventJumpTimeFuture;
+    [SerializeField] private UnityEvent _eventJumpTimePast;
 
     private void Update()
     {
@@ -39,7 +42,6 @@ public class TimeManager : MonoBehaviour
             {
                 _timeState = TimeState.past;
             }
-           
             StartChangeTime();
         }
     }
@@ -55,6 +57,8 @@ public class TimeManager : MonoBehaviour
         if (_timeState == TimeState.past)
         {
             _changeTimeEffect.SetActive(true);
+            _eventJumpTimePast.Invoke();
+            
             if (_terrainChanger != null)
             {
                 _terrainChanger.MakeOld();
@@ -67,6 +71,7 @@ public class TimeManager : MonoBehaviour
         else if (_timeState == TimeState.future)
         {
             _changeTimeEffect.SetActive(true);
+            _eventJumpTimeFuture.Invoke();
             if (_terrainChanger != null)
             {
             _terrainChanger.MakeModern();
@@ -79,6 +84,5 @@ public class TimeManager : MonoBehaviour
         }
         yield return new WaitForSeconds(0.5f);
         _changeTimeEffect.SetActive(false);
-
     }
 }
